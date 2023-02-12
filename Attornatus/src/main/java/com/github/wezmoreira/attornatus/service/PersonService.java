@@ -24,6 +24,11 @@ public class PersonService {
 
     public ResponsePersonDto createPersonService(RequestPersonDto requestPersonDto) {
         Person person = modelMapper.map(requestPersonDto, Person.class);
+        List<Address> addresses = person.getAddress();
+        if (!addresses.isEmpty()) {
+            addresses.get(0).setMainAddress(true);
+        }
+
         repository.save(person);
         return modelMapper.map(person, ResponsePersonDto.class);
     }

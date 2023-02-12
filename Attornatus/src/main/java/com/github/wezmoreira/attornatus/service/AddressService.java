@@ -52,14 +52,30 @@ public class AddressService {
 
     public ResponseAddressDto setMainAddressService(RequestAddressDto requestAddress, Long idAddress, Long idPerson) {
         Person person = personRepository.findById(idPerson).orElseThrow(NullPointerException::new);
+        Address address = addressrepository.findById(idAddress).orElseThrow(NullPointerException::new);
+
+        boolean addressExists = verifyAddressExist(person, idAddress);
+        if (!addressExists)
+            throw new NullPointerException();
 
         var addressPerson = addressrepository.findPersonByMainAddress(person.getId());
         if(addressPerson != null)
             addressPerson.setMainAddress(false);
 
-        Address address = addressrepository.findById(idAddress).orElseThrow(NullPointerException::new);
         address.setMainAddress(true);
         addressrepository.save(address);
         return modelMapper.map(address, ResponseAddressDto.class);
+    }
+
+    private boolean verifyAddressExist(Person person, Long idAddress) {
+        List<Address> addressList = person.getAddress();
+        boolean addressExists = false;
+        for (var a : addressList) {
+            if(a.getId().equals(idAddress)){
+                addressExists = true;
+                break;
+            }
+        }
+        return addressExists;
     }
 }
