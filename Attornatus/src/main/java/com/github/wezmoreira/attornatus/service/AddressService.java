@@ -2,6 +2,9 @@ package com.github.wezmoreira.attornatus.service;
 
 import com.github.wezmoreira.attornatus.dto.request.address.RequestAddressDto;
 import com.github.wezmoreira.attornatus.dto.response.address.ResponseAddressDto;
+import com.github.wezmoreira.attornatus.exceptions.AddressNotFoundException;
+import com.github.wezmoreira.attornatus.exceptions.InvaliAddressException;
+import com.github.wezmoreira.attornatus.exceptions.PersonNotFoundException;
 import com.github.wezmoreira.attornatus.model.Address;
 import com.github.wezmoreira.attornatus.model.Person;
 import com.github.wezmoreira.attornatus.repositories.AddressRepository;
@@ -28,7 +31,7 @@ public class AddressService {
 
 
     public ResponseAddressDto addAddressToPersonService(Long id, RequestAddressDto request) {
-        Person person = personRepository.findById(id).orElseThrow(NullPointerException::new);
+        Person person = personRepository.findById(id).orElseThrow(PersonNotFoundException::new);
         Address address = modelMapper.map(request, Address.class);
         List<Address> addressList = person.getAddress();
 
@@ -43,7 +46,7 @@ public class AddressService {
     public List<ResponseAddressDto> getPersonAddressService(Long id) {
         Person person = personRepository.getPersonByMainAddress(id);
         if(person == null)
-            throw new NullPointerException();
+            throw new PersonNotFoundException();
 
         return person.getAddress().stream()
                 .map(a -> modelMapper.map(a, ResponseAddressDto.class)).collect(Collectors.toList());
@@ -51,12 +54,12 @@ public class AddressService {
 
 
     public ResponseAddressDto setMainAddressService(RequestAddressDto requestAddress, Long idAddress, Long idPerson) {
-        Person person = personRepository.findById(idPerson).orElseThrow(NullPointerException::new);
-        Address address = addressrepository.findById(idAddress).orElseThrow(NullPointerException::new);
+        Person person = personRepository.findById(idPerson).orElseThrow(PersonNotFoundException::new);
+        Address address = addressrepository.findById(idAddress).orElseThrow(AddressNotFoundException::new);
 
         boolean addressExists = verifyAddressExist(person, idAddress);
         if (!addressExists)
-            throw new NullPointerException();
+            throw new InvaliAddressException();
 
         var addressPerson = addressrepository.findPersonByMainAddress(person.getId());
         if(addressPerson != null)
