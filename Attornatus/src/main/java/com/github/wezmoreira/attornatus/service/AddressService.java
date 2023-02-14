@@ -61,7 +61,7 @@ public class AddressService {
 
     /**
      * Seleciona um novo endereço principal, pode haver apenas um único endereço principal então o antigo endereço
-     * não sera mais "principal"!
+     * voltara ao status normal!
      */
     public ResponseAddressDto setMainAddressService(RequestAddressDto requestAddress, Long idAddress, Long idPerson) {
         Person person = personRepository.findById(idPerson).orElseThrow(PersonNotFoundException::new);
