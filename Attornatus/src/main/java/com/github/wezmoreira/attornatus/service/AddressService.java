@@ -30,6 +30,9 @@ public class AddressService {
     private AddressRepository addressrepository;
 
 
+    /**
+     * Adiciona um novo Address a um Person.
+     */
     public ResponseAddressDto addAddressToPersonService(Long id, RequestAddressDto request) {
         Person person = personRepository.findById(id).orElseThrow(PersonNotFoundException::new);
         Address address = modelMapper.map(request, Address.class);
@@ -43,6 +46,9 @@ public class AddressService {
     }
 
 
+    /**
+     * Retorna todos os Address de um Person, ordenado pelo endereço principal.
+     */
     public List<ResponseAddressDto> getPersonAddressService(Long id) {
         Person person = personRepository.getPersonByMainAddress(id);
         if(person == null)
@@ -53,6 +59,10 @@ public class AddressService {
     }
 
 
+    /**
+     * Seleciona um novo endereço principal, pode haver apenas um único endereço principal então o antigo endereço
+     * não sera mais "principal"!
+     */
     public ResponseAddressDto setMainAddressService(RequestAddressDto requestAddress, Long idAddress, Long idPerson) {
         Person person = personRepository.findById(idPerson).orElseThrow(PersonNotFoundException::new);
         Address address = addressrepository.findById(idAddress).orElseThrow(AddressNotFoundException::new);
@@ -70,6 +80,10 @@ public class AddressService {
         return modelMapper.map(address, ResponseAddressDto.class);
     }
 
+
+    /**
+     * Verifica se o endereço pertence ao Person.
+     */
     private boolean verifyAddressExist(Person person, Long idAddress) {
         List<Address> addressList = person.getAddress();
         boolean addressExists = false;

@@ -23,6 +23,10 @@ public class PersonService {
     @Autowired
     private PersonRepository repository;
 
+
+    /**
+     * Cria um Person onde o primeiro endereço informado é selecionado como principal.
+     */
     public ResponsePersonDto createPersonService(RequestPersonDto requestPersonDto) {
         Person person = modelMapper.map(requestPersonDto, Person.class);
         List<Address> addresses = person.getAddress();
@@ -34,17 +38,26 @@ public class PersonService {
         return modelMapper.map(person, ResponsePersonDto.class);
     }
 
+    /**
+     * Retorna todos Persons com apenas o endereço principal.
+     */
     public List<ResponsePersonDto> getAllPersonService() {
         return repository.findAllPersonByMainAddress().stream()
                 .map(p -> modelMapper.map(p, ResponsePersonDto.class))
                 .collect(Collectors.toList());
     }
 
+    /**
+     * Retorna um Person pelo "id".
+     */
     public ResponsePersonDto getPersonByIdService(Long id) {
         Person person = repository.findById(id).orElseThrow(PersonNotFoundException::new);
         return modelMapper.map(person, ResponsePersonDto.class);
     }
 
+    /**
+     * Atualiza uma propriedade ou todas de um Person.
+     */
     public ResponsePersonDto updatePersonService(Long id, RequestUpdatePersonDto request) {
         Person person = repository.findById(id).orElseThrow(PersonNotFoundException::new);
         modelMapper.map(request, person);
@@ -52,6 +65,9 @@ public class PersonService {
         return modelMapper.map(personSaved, ResponsePersonDto.class);
     }
 
+    /**
+     * Deleta um person pelo "Id".
+     */
     public void deletePersonService(Long id) {
         Person person = repository.findById(id).orElseThrow(PersonNotFoundException::new);
         repository.delete(person);
