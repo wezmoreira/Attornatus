@@ -33,8 +33,9 @@ public class PersonController {
     }
 
     @GetMapping
-    public List<ResponsePersonDto> getAllPerson(){
-        return service.getAllPersonService();
+    public ResponseEntity<List<ResponsePersonDto>> getAllPerson(){
+        List<ResponsePersonDto> personDtoList = service.getAllPersonService();
+        return ResponseEntity.ok(personDtoList);
     }
 
     @GetMapping("/{id}")
