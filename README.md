@@ -5,7 +5,7 @@
 <p align="center">API teste tecnico Attornatus<p>
 
 ## Coleção Postman
-- * [Postman](https://www.google.com)
+- * [Postman](https://github.com/wezmoreira/Attornatus/blob/main/PostmanCollection/Attornatus.postman_collection.json)
 
 ## Teste tecnico Attornatus.
 
