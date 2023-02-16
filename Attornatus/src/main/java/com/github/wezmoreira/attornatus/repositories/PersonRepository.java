@@ -13,4 +13,7 @@ public interface PersonRepository extends JpaRepository<Person, Long> {
 
     @Query("SELECT p FROM Person p JOIN FETCH p.address a WHERE p.id=:id ORDER BY a.mainAddress DESC")
     Person getPersonByMainAddress(@Param("id") Long id);
+
+    @Query("SELECT p FROM Person p JOIN FETCH p.address a WHERE p.id = :personId ORDER BY a.mainAddress DESC")
+    Person findPersonByMainAddress(@Param("personId") Long personId);
 }

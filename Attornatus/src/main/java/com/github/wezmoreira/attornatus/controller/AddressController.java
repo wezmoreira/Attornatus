@@ -18,7 +18,7 @@ public class AddressController {
     private AddressService service;
 
     @PostMapping("/{id}/person")
-    public ResponseEntity<ResponseAddressDto> AddAddressToPerson(@PathVariable Long id, @RequestBody RequestAddressDto request){
+    public ResponseEntity<ResponseAddressDto> AddAddressToPerson(@PathVariable Long id, @RequestBody @Valid RequestAddressDto request){
         ResponseAddressDto personAddress = service.addAddressToPersonService(id, request);
         return ResponseEntity.ok(personAddress);
     }
@@ -30,9 +30,9 @@ public class AddressController {
     }
 
     @PutMapping("/{idAddress}/person/{idPerson}")
-    public  ResponseEntity<ResponseAddressDto> setMainAddressPerson(@RequestBody @Valid RequestAddressDto requestAddress, @PathVariable Long idAddress,
+    public  ResponseEntity<ResponseAddressDto> setMainAddressPerson(@PathVariable Long idAddress,
                                                                     @PathVariable Long idPerson) {
-        ResponseAddressDto addressDto = service.setMainAddressService(requestAddress, idAddress, idPerson);
+        ResponseAddressDto addressDto = service.setMainAddressService(idAddress, idPerson);
         return ResponseEntity.ok(addressDto);
     }
 }

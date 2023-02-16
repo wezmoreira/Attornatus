@@ -51,7 +51,9 @@ public class PersonService {
      * Retorna um Person pelo "id".
      */
     public ResponsePersonDto getPersonByIdService(Long id) {
-        Person person = repository.findById(id).orElseThrow(PersonNotFoundException::new);
+        Person person = repository.findPersonByMainAddress(id);
+        if(person == null)
+            throw new PersonNotFoundException();
         return modelMapper.map(person, ResponsePersonDto.class);
     }
 

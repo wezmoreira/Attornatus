@@ -178,15 +178,6 @@
 					"request": {
 						"method": "PUT",
 						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": "{\n    \"id\": 1,\n    \"street\": \"Av. Colombo\",\n    \"cep\": \"87114595\",\n    \"number\": \"18\",\n    \"city\": \"Maringa\"\n}",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
-						},
 						"url": {
 							"raw": "http://localhost:8080/v1/api/address/{idAddress}/person/{idPerson}",
 							"protocol": "http",
