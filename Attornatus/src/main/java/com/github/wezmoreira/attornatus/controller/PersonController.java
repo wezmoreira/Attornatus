@@ -10,6 +10,7 @@ import jakarta.validation.constraints.NotNull;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.UriComponentsBuilder;
 
@@ -25,7 +26,7 @@ public class PersonController {
 
     @PostMapping
     @Transactional
-    public ResponseEntity<ResponsePersonDto> createPerson(@RequestBody @Valid RequestPersonDto requestPersonDto,
+    public ResponseEntity<ResponsePersonDto> createPerson(@RequestBody @Validated RequestPersonDto requestPersonDto,
                                                           UriComponentsBuilder uriComponentsBuilder){
         ResponsePersonDto personDto = service.createPersonService(requestPersonDto);
         URI uri = uriComponentsBuilder.path("/api/pedidos/{id}").buildAndExpand(personDto.getId()).toUri();
